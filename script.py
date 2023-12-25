@@ -1,12 +1,15 @@
-import sys
+import datetime
 import hashlib
-import time
 import json
+import os
 import requests
+import signal
+import sys
+import time
 import urllib.request
 import urllib.parse
 import xml.etree.ElementTree as ET
-import datetime
+
 import logging
 
 root = logging.getLogger()
@@ -237,8 +240,8 @@ def main():
     create_file(outputFile)
     all_logs = read_dict_from_file(outputFile)
 
-    # while True:
-    for i in range(2):
+    while True:
+    # for i in range(2):
         new_logs = getLogs(sid, url)
 
         for new_log in new_logs:
@@ -253,5 +256,10 @@ def main():
     json_formatted_response = json.dumps(read_dict_from_file(outputFile), indent=2)
     logging.info(json_formatted_response)
 
+def terminate(signal,frame):
+  print("Start Terminating: %s" % datetime.now())
+  sys.exit("Exiting the code with sys.exit()!")
+
 if __name__ == "__main__":
+    signal.signal(signal.SIGTERM, terminate)
     main()
