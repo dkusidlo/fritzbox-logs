@@ -1,5 +1,5 @@
 #Dockerfile vars
-APP_NAME = "fritz-logs"
+APP_NAME = "fritzbox-logs"
 
 #vars
 IMAGEFULLNAME=${APP_NAME}:latest
@@ -20,6 +20,12 @@ build:
 
 # Run the container
 run:
-		@podman run -e 'url=$(FBURL)' -e 'user=$(FBUSER)' -e 'password=$(FBPASS)' -e 'interval=$(FBINT)' ${IMAGEFULLNAME}
+		@podman run \
+			-e 'url=$(FBURL)' \
+			-e 'user=$(FBUSER)' \
+			-e 'password=$(FBPASS)' \
+			-e 'interval=$(FBINT)' \
+			-e 'outputDir=$(FBAPPVOLUME)' \
+			-v /Users/dkusidlo/development/tmp/fritzbox-logs-data:/data/fritzbox-logs-data ${IMAGEFULLNAME}
 
 all: build run

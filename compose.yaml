@@ -1,0 +1,17 @@
+version: '3'
+services:
+  fritzbox-logs:
+    image: dkusidlo/fritzbox-logs:latest
+    restart: unless-stopped
+    volumes:
+      - log-data:/data/fritzbox-logs
+    environment:
+      - FBURL=http://fritz.box
+      - FBUSER=user
+      - FBPASS=password
+      - FBINT=interval
+      - FBAPPVOLUME=outputdir
+    command: []
+
+volumes:
+  log-data:

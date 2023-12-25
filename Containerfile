@@ -12,5 +12,6 @@ ENV url=$(FBURL)
 ENV user=$(FBUSER)
 ENV password=$(FBPASS)
 ENV interval=$(FBINT)
+ENV outputDir=$(FBAPPVOLUME)
 
-CMD [ "/bin/sh", "-c", "python -u ./script.py ${url} ${user} ${password} ${interval}" ]
+CMD [ "/bin/sh", "-c", "python -u ./script.py ${url} ${user} ${password} ${interval} ${outputDir}" ]
