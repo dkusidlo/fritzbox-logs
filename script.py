@@ -240,26 +240,37 @@ def main():
     create_file(outputFile)
     all_logs = read_dict_from_file(outputFile)
 
-    while True:
-    # for i in range(2):
-        new_logs = getLogs(sid, url)
+    try:
+        while True:
+        # for i in range(2):
+            new_logs = getLogs(sid, url)
 
-        for new_log in new_logs:
-            if new_log not in all_logs:
-                all_logs.append(new_log)
-                # logging.info(new_log)
-                write_dict_to_file(new_log, outputFile)
+            for new_log in new_logs:
+                if new_log not in all_logs:
+                    all_logs.append(new_log)
+                    # logging.info(new_log)
+                    write_dict_to_file(new_log, outputFile)
 
-        time.sleep(interval)
+            time.sleep(interval)
+
+    except Exception as e:
+        print(e)
 
     logging.info("-------- output --------")
     json_formatted_response = json.dumps(read_dict_from_file(outputFile), indent=2)
     logging.info(json_formatted_response)
 
-def terminate(signal,frame):
-  print("Start Terminating: %s" % datetime.now())
-  sys.exit("Exiting the code with sys.exit()!")
+def shutdown_handler(signal: int, frame) -> None:
+    """Gracefully shutdown app."""
+    logging.info("Signal received, safely shutting down.")
+
+    print("Exiting process.", flush=True)
+    raise Exception("Signal received, safely shutting down!")
+    sys.exit(0)
 
 if __name__ == "__main__":
-    signal.signal(signal.SIGTERM, terminate)
+    signal.signal(signal.SIGINT, shutdown_handler)
     main()
+else:
+    # handles Cloud Run container termination
+    signal.signal(signal.SIGTERM, shutdown_handler)

@@ -2,6 +2,7 @@ version: '3'
 services:
   fritzbox-logs:
     image: dkusidlo/fritzbox-logs:latest
+    pull_policy: always
     restart: unless-stopped
     volumes:
       - log-data:/data/fritzbox-logs
