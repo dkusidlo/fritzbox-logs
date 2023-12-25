@@ -5,7 +5,7 @@ services:
     pull_policy: always
     restart: unless-stopped
     volumes:
-      - log-data:/data/fritzbox-logs
+      - log-data:/data/fritzbox-logs-data
     environment:
       - USER_UID=1000
       - USER_GID=1000

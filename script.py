@@ -248,8 +248,8 @@ def main():
             for new_log in new_logs:
                 if new_log not in all_logs:
                     all_logs.append(new_log)
-                    # logging.info(new_log)
                     write_dict_to_file(new_log, outputFile)
+                    logging.info(new_log)
 
             time.sleep(interval)
 
